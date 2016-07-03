@@ -1,0 +1,13 @@
+Package: earthlife
+Title: Biodiversity in space and time.  A wrapper for the EarthLife Consortium API.
+Version: 0.0.0.9000
+Authors@R: person("Goring", "Simon", email = "goring@wisc.edu", role = c("aut", "cre"))
+Description: This package provides a wrapper for the EarthLife Consortium's API.  This tool accesses occurrence data from the combined resources of the Paleobiology Database and the Neotoma Paleoecology Database, providing biological occurence data from the present to the beginning of life on earth.
+Depends: R (>= 3.3.1)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
