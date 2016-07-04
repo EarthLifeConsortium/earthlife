@@ -16,4 +16,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ```R
 
+# Find all Canis related fossils:
+all_canis <- get_by_taxon("Canis")
+
 ```

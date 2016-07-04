@@ -1,0 +1,31 @@
+neotoma,pbdb,com,dwc,block, description
+Database,database,sdb,institutionCode,basic,The source database from which this occurrence was retrieved.
+OccurrenceID,occurrence_no,oid,occurrenceID,basic,
+A unique identifier assigned to this occurrence.
+RecordType,record_type,typ,basisOfRecord,basic,
+The type of this record. The value will be Occurrence for the Neotoma vocabulary, occurrence for the PaleoBioDB vocabulary, and occ for the Compact vocabulary.
+DatasetID,dataset_no,dst,datasetID,basic,
+The dataset with which this occurrence is associated. This field will be empty for occurrences from PaleoBioDB.
+TaxonName,accepted_name,tna,associatedTaxa,basic,
+The taxonomic name by which this occurrence is identified.
+TaxonID,accepted_no,tid,n/a,basic,
+The unique identifier of this taxonomic name in the source database.
+AgeOlder,max_age,eag,n/a,basic,
+The maximum of the age range to which this occurrence has been dated. Note that occurrences from PaleoBioDB are generally dated stratigraphically, while occurrences from Neotoma are generally dated using radiometric or other techniques.
+AgeYounger,min_age,lag,n/a,basic,
+The minimum of the age range to which this occurrence has been dated.
+AgeUnit,age_unit,agu,n/a,basic,
+SiteID,collection_no,cid,collectionID,basic,
+The identifier of the site (SiteID for Neotoma, collection_no for PaleoBioDB) where this occurrence is located.
+n/a,n/a,n/a,occurrenceRemarks,basic,
+Information for which the Darwin Core standard has no corresponding term.
+SiteName,collection_name,cnn,verbatimLocality,loc,
+The name of the site at which the occurrence is located. This reports the SiteName from Neotoma occurrences, and the collection_name for PaleoBioDB occurrences.
+Longitude,lng,lng,decimalLongitude,loc,
+The longitude of the site at which the occurrence is located.
+Latitude,lat,lat,decimalLatitude,loc,
+The latitude of the site at which the occurrence is located.
+Country,country,cc2,countryCode,loc,
+The country in which the occurrence is located, encoded as ISO-3166-1 alpha-2
+StateProvince,state,stp,stateProvince,loc,
+The state or province in which the collection is located, if known
