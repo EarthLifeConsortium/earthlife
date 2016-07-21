@@ -1,0 +1,31 @@
+---
+title: "earthlife: Unlocking diversity through time"
+author: "Simon Goring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{earthlife: Unlocking diversity through time}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The `earthlife` R package is a warpper for the shared API of the Neotoma Paleoecological Database ([http://neotomadb.org]()) and the Paleobiology Database ([http://paleodb.org]()).  Each individual resource maintains a unique API system, and each has associated tools that makes use of their respective API system (*e.g.*, the `neotoma` R package for Neotoma, the `paleodb` package for the Paleobiology Database).  The `earthlife` package specifically binds the joint API, and provides basic functionality to search for biological data from the present to the origin of life on earth.
+
+## Resource Overview
+
+### Paleobiology Database
+
+### Neotoma
+
+## API Overview
+
+The API serving both databases operates at the level of the `occurrence`.  An occurrence is the presence of an organism at a location at some point in time.  Philosophically and practically, the Paleobiology Database treats its data holdings in this way, while Neotoma generally considers organisms, or their organs (*e.g.*, pollen) to be part of a broader analysis unit.  This is a function of the history of the database, which arose primarily from the North American Pollen Database [REF], where pollen microfossils are processed from lake sediment or peat as a unit, and counted together as an assemblage at some depth, which can be then represented in time using geochronological markers.
+
+The API itself works at the level of either unique occurrence or site IDs, taxon names, or bounding boxes.  Searches can be further limited using time bounds, or services (either Neotoma or the Paleobiology Database, or both).  All searches use the same base `occs` service.
+
+## Implementation
+
+### Class: `occurrence`
+
+The `occurrence` class is the workhorse of the `earthlife` package.  It consists of the API response, parsed into a `data.frame`, and a set of associaed metadata.  Recent interest in data provenance has led us to include metadata for the search key sufficient to generate a reproducible citation for the search itself.  This uses the standard `citation` method, usually applied to packages to obtain their citation. While citing the specific search package is not neccessary, it is useful to retain information about the specific search and the access date.  The `citation` method for `occurrence` data provides a simple citation style so it can be copy-pasted into a document, and retains the core information neccessary for reproducibility.
+

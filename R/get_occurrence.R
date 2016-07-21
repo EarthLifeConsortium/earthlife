@@ -4,15 +4,15 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr content GET
 #' @param x An optional value, either a \code{numeric} site ID or object of class \code{download}, \code{download_list} or \code{site}.
-#' @param occ_id
-#' @param taxon_name
-#' @param base_name
-#' @param match_name
+#' @param occ_id A numeric Occurrence ID.
+#' @param taxon_name The taxon name as a \code{character}
+#' @param base_name The taxon name as a \code{character}
+#' @param match_name The taxon name as a \code{character}
 #' @param vocab The taxonomic vocabulary to use, either \'pbdb\' or \'neotoma\'.
-#' @param base_id
-#' @param taxon_id
-#' @param site_id
-#' @param bbox
+#' @param base_id The taxon name as a \code{character}
+#' @param taxon_id The taxon name as a \code{character}
+#' @param site_id The taxon name as a \code{character}
+#' @param bbox The taxon name as a \code{character}
 #'
 #' @author Simon J. Goring \email{goring@@wisc.edu}
 #' @return More details on the use of these parameters can be obtained from

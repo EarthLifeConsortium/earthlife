@@ -10,7 +10,21 @@ get_occurrence(x, occ_id, taxon_name, base_name, match_name, base_id, taxon_id,
 \arguments{
 \item{x}{An optional value, either a \code{numeric} site ID or object of class \code{download}, \code{download_list} or \code{site}.}
 
-\item{bbox}{}
+\item{occ_id}{A numeric Occurrence ID.}
+
+\item{taxon_name}{The taxon name as a \code{character}}
+
+\item{base_name}{The taxon name as a \code{character}}
+
+\item{match_name}{The taxon name as a \code{character}}
+
+\item{base_id}{The taxon name as a \code{character}}
+
+\item{taxon_id}{The taxon name as a \code{character}}
+
+\item{site_id}{The taxon name as a \code{character}}
+
+\item{bbox}{The taxon name as a \code{character}}
 
 \item{vocab}{The taxonomic vocabulary to use, either \'pbdb\' or \'neotoma\'.}
 }
