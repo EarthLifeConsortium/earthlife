@@ -5,58 +5,55 @@
 #' @importFrom httr content GET
 #' @importFrom dplyr bind_rows
 #' @param x An optional value, either a \code{numeric} site ID or object of class \code{download}, \code{download_list} or \code{site}.
-#' @param occ_id
-#' @param taxon_name
-#' @param base_name
-#' @param match_name
-#' @param vocab The taxonomic vocabulary to use, either \'pbdb\' or \'neotoma\'.
-#' @param base_id
-#' @param taxon_id
-#' @param site_id
-#' @param bbox
+#' @param lower Include all taxa at an order below the focal taxon (default \code{TRUE}).
+#' @param pattern Is the search string a pattern match i.e. a partial or wildcard search (default \code{TRUE})
+#' @param ... Other parameters to be passed into the API, described at \url{https://training.paleobiodb.org/comp1.0}.
 #'
 #' @author Simon J. Goring \email{goring@@wisc.edu}
 #' @return More details on the use of these parameters can be obtained from
 #'    \url{https://training.paleobiodb.org/comp1.0/}.
 #'
-#'    A list of class `data.frame`.  , with each item corresponding to an individual record.
-#'    Searches that return no items will result in a NULL value being returned.
-#'    Otherwise each list item (each dataset record) includes the following components:
+#'    A list of class `occurrence` and `list`.  The list is composed of two elements:
 #'
-#'  \item{ \code{dataset.id} }{Unique database record identifier for the dataset.}
-#'  \item{ \code{dataset.name}  }{Name of the dataset; not commonly used.}
-#'  \item{ \code{CollUnitHandle}  }{Code name of the Collection Unit with which the dataset is associated. This code may be up to 10 characters. Data are frequently distributed by Collection Unit, and the Handle is used for file names.}
-#'  \item{ \code{CollUnitID}  }{Unique database record identifier for the collection unit.}
-#'  \item{ \code{CollType}  }{The collection type. Types include cores, sections, excavations, and animal middens.}
-#'  \item{ \code{DatasetType}  }{The dataset type, such as: geochronologic, loss-on-ignition, pollen, plant macrofossils, vertebrate fauna, etc.}
-#'  \item{ \code{AgeOldest}  }{The oldest of all sample ages (in calendar years before present) in the dataset.}
-#'  \item{ \code{AgeYoungest}  }{The youngest of all sample ages (in calendar years before present) in the dataset.}
-#'  \item{ \code{SubDates}  }{An array of objects that describe dataset submission events.  If multiple submissions occurred then this is a table.}
-#'  \item{ \code{DatasetPIs}  }{An array of objects that describe Principal Investigators associated with a dataset.}
-#'  \item{ \code{Site}  }{An object describing the site where the dataset samples were taken.}
+#'  \item{ \code{records} }{The complete listing of taxon occurrences.}
+#'  \item{ \code{meta}  }{Metadata for the search.}
+#'
+#'  The \code{records} object is a \code{data.frame}
+#'  \item{ \code{collection_name}  }{Site or collection unit name for the record.}
+#'  \item{ \code{lng}  }{Collection site longitude.}
+#'  \item{ \code{lat}  }{Collection site latitude.}
+#'  \item{ \code{accepted_name}  }{The taxon name.}
+#'  \item{ \code{max_age}  }{The oldest of all sample ages (in calendar years before present) in the dataset.}
+#'  \item{ \code{min_age}  }{The youngest of all sample ages (in calendar years before present) in the dataset.}
+#'  \item{ \code{age_unit}  }{The units for age (by default Mya).}
+#'  \item{ \code{database}  }{The database from which the record was obtained.}
+#'  \item{ \code{occurrence_no}  }{The numeric ID for the record within the parent database.}
+#'  \item{ \code{dataset_no}  }{For records within Neotoma, the numeric ID of the dataset from which the sample was obtained.}
+#'  \item{ \code{accepted_no}  }{The numeric identifier for the taxon name from the parent database.}
+#'  \item{ \code{collection_no}  }{The numeric identifier for the collection within the parent database.}
+#'  \item{ \code{country}  }{The country within which the sample is found (if known).}
+#'  \item{ \code{state}  }{The state (when known) within the identified country.}
 #'
 #' @examples \dontrun{
-#' # Search for sites with "Thuja" pollen that are older than 8kyr BP and
-#' # that are on the west coast of North America:
-#' t8kyr.datasets <- get_dataset(taxonname='Thuja*', loc=c(-150, 20, -100, 60), ageyoung = 8000)
+#' # Search for sites with "Canis" fossils.
+#' canis <- get_by_taxon("Canis")
 #'
-#' # Search for vertebrate fossils in Canada (gpid: 756) within the last 2kyr.
-#' gpids <- get_table(table.name='GeoPoliticalUnits')
-#' canID <- gpids[which(gpids$GeoPoliticalName == 'Canada'),1]
+#' # Limit searches to North America (undocumented use of \code{bbox})
+#' canis_na <- get_by_taxon("Canis", bbox = c(-180, 20, -20, 90))
 #'
-#' v2kyr.datasets <- get_dataset(datasettype='vertebrate fauna', gpid=canID, ageold = 2000)
 #' }
 #' @references
-#' Neotoma Project Website: http://www.neotomadb.org
+#' EarthLife Consortium: http://earthlifeconsortium.org/
 #' API Reference:  https://training.paleobiodb.org/comp1.0
 #' @keywords IO connection
 #' @export
 #'
-get_by_taxon <- function(x, lower = TRUE, pattern = TRUE) {
+get_by_taxon <- function(x, lower = TRUE, pattern = TRUE, ...) {
   UseMethod('get_by_taxon')
 }
 
-get_by_taxon.default <- function(x, lower = TRUE, pattern = TRUE) {
+#' @export
+get_by_taxon.default <- function(x, lower = TRUE, pattern = TRUE, ...) {
 
   base_uri <- "https://training.paleobiodb.org/comp1.0/occs/list.json"
 
@@ -73,14 +70,47 @@ get_by_taxon.default <- function(x, lower = TRUE, pattern = TRUE) {
   }
 
 
-  neotoma_content <- httr::content(httr::GET(base_uri, query = params))
+  api_content <- httr::content(httr::GET(base_uri, query = params))
 
-  occurrence <- list(records = data.frame(do.call(bind_rows, neotoma_content$records)),
-                     meta = list(title = neotoma_content$title,
-                                 access = as.POSIXct(neotoma_content$access_time,
+  records <- data.frame(do.call(dplyr::bind_rows, api_content$records))
+
+  if (nrow(records) == 0) {stop("The search returned no records.")}
+
+  colnames(records) <- record_cols$pbdb[match(colnames(records), record_cols$com)]
+
+  if ("dataset_no" %in% colnames(records)) {
+
+    # Resorting and excluding "record_type"
+    col_names <- c("collection_name", "lng", "lat", "accepted_name",
+                   "max_age", "min_age", "age_unit",
+                   "database", "occurrence_no", "dataset_no", "accepted_no",
+                   "collection_no", "country", "state")
+
+    for (i in col_names[!"collection_name" %in% colnames(records)]) {
+      records[,i] <- NA
+    }
+
+    records <- records[, c("collection_name", "lng", "lat", "accepted_name",
+                           "max_age", "min_age", "age_unit",
+                           "database", "occurrence_no", "dataset_no", "accepted_no",
+                           "collection_no", "country", "state")]
+  } else {
+
+    # This happens when only PBDB records are returned.
+
+    records <- records[, c("collection_name", "lng", "lat", "accepted_name",
+                           "max_age", "min_age", "age_unit",
+                           "database", "occurrence_no", "accepted_no",
+                           "collection_no", "country", "state")]
+
+  }
+
+  occurrence <- list(records = records,
+                     meta = list(title = api_content$title,
+                                 access = as.POSIXct(api_content$access_time,
                                                      format = "%a %F %T", tz = "GMT"),
-                                 doc_url = neotoma_content$documentation_url,
-                                 call = neotoma_content$data_url))
+                                 doc_url = api_content$documentation_url,
+                                 call = api_content$data_url))
 
   class(occurrence) <- c("occurrence", "list")
 
