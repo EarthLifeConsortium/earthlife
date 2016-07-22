@@ -6,7 +6,7 @@ The goal of the `earthlife` package is to provide a programmatic interface to th
 
 ### Development
 
-*We welcome contributions from any individual, whether code, documentation, or issue tracking.  All participants are expected to follow the [code of conduct](https://github.com/EarthLifeConsortium/earthlife/blob/master/code_of_conduct.md) for this project.*
+*We welcome contributions from any individual, whether code, documentation, or issue tracking.  All participants are expected to follow the [code of conduct](https://github.com/EarthLifeConsortium/earthlife/blob/master/CONDUCT.md) for this project.*
 
 + [Simon Goring](http://downwithtime.wordpress.com) - University of Wisconsin-Madison, Department of Geography
 
