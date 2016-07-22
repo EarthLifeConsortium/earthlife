@@ -7,7 +7,7 @@
 get_by_taxon(x, lower = TRUE, pattern = TRUE, ...)
 }
 \arguments{
-\item{x}{An optional value, either a \code{numeric} site ID or object of class \code{download}, \code{download_list} or \code{site}.}
+\item{x}{A taxon name, at any level, may use wildcards.  Taxonomy follows either Neotoma (morpho-type based) or Paleobiology DB taxonomy.}
 
 \item{lower}{Include all taxa at an order below the focal taxon (default \code{TRUE}).}
 

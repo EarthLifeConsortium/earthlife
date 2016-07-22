@@ -1,4 +1,4 @@
-#' @importFrom maps map
+#' @importFrom rworldmap getMap
 #' @export
 #'
 plot.occurrence <- function(x, by_db = TRUE, ...) {
@@ -16,10 +16,12 @@ plot.occurrence <- function(x, by_db = TRUE, ...) {
   # Clear duplicate sites)
   unique_sites <- !duplicated(x$records[, c("lat", "lng")])
 
+  world <- rworldmap::getMap(resolution = 'low')
+
   plot(density(log(x$records$max_age), na.rm = TRUE),
        main = "")
 
-  maps::map('world', fill = FALSE,
+  plot(world,
       col = "darkgray",
       xlim = range(x$records$lng),
       ylim = range(x$records$lat))

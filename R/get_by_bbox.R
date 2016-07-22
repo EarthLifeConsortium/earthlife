@@ -34,7 +34,7 @@
 #'
 #' @examples \dontrun{
 #' # Search for sites with "Canis" fossils.
-#' pnw_search <- get_by_bbox(bbox = c(-140, 48, -110, 60), match_name = "Cupressa*)
+#' pnw_search <- get_by_bbox(bbox = c(-140, 48, -110, 60), match_name = "Cupressaceae")
 #'
 #' # Limit searches to North America (undocumented use of \code{bbox})
 #' canis_na <- get_by_bbox(x = c(-180, 20, -20, 90), match_name = "Canis")

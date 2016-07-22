@@ -17,7 +17,7 @@ Imports:
     dplyr,
     httr,
     neotoma,
-    maps
+    rworldmap
 Suggests:
     testthat,
     knitr,
