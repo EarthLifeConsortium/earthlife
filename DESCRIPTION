@@ -16,7 +16,8 @@ Imports:
     jsonlite,
     dplyr,
     httr,
-    neotoma
+    neotoma,
+    maps
 Suggests:
     testthat,
     knitr,

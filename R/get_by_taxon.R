@@ -4,7 +4,7 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr content GET
 #' @importFrom dplyr bind_rows
-#' @param x An optional value, either a \code{numeric} site ID or object of class \code{download}, \code{download_list} or \code{site}.
+#' @param x A taxon name, at any level, may use wildcards.  Taxonomy follows either Neotoma (morpho-type based) or Paleobiology DB taxonomy.
 #' @param lower Include all taxa at an order below the focal taxon (default \code{TRUE}).
 #' @param pattern Is the search string a pattern match i.e. a partial or wildcard search (default \code{TRUE})
 #' @param ... Other parameters to be passed into the API, described at \url{https://training.paleobiodb.org/comp1.0}.
@@ -77,7 +77,7 @@ get_by_taxon.default <- function(x, lower = TRUE, pattern = TRUE, ...) {
 
   if (nrow(records) == 0) {stop("The search returned no records.")}
 
-  colnames(records) <- record_cols$pbdb[match(colnames(records), record_cols$com)]
+  colnames(records) <- earthlife:::record_cols$pbdb[match(colnames(records), record_cols$com)]
 
   if ("dataset_no" %in% colnames(records)) {
 

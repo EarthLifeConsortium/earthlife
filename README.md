@@ -2,7 +2,7 @@
 
 <img src="ELC-logo-M.png" width="100">
 
-The goal of the `earthlife` package is to provide a programmatic interface to the EarthLife Consorium's combined API for the Neotoma Paleoecological Database and the Paleobiology Database.  
+The goal of the `earthlife` package is to provide a programmatic interface to the EarthLife Consorium's combined API for the Neotoma Paleoecological Database and the Paleobiology Database.  This combined API provides access to biological records obtained from fossil samples spanning from the present to the origin of life on earth.
 
 ### Development
 
@@ -12,11 +12,11 @@ The goal of the `earthlife` package is to provide a programmatic interface to th
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Find all fossil records for the genus *Canis* and include all lower taxa (all species).
 
 ```R
 
 # Find all Canis related fossils:
-all_canis <- get_by_taxon("Canis")
+all_canis <- get_by_taxon("Canis", lower = TRUE)
 
 ```

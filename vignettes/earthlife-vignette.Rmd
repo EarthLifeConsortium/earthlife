@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The `earthlife` R package is a warpper for the shared API of the Neotoma Paleoecological Database ([http://neotomadb.org]()) and the Paleobiology Database ([http://paleodb.org]()).  Each individual resource maintains a unique API system, and each has associated tools that makes use of their respective API system (*e.g.*, the `neotoma` R package for Neotoma, the `paleodb` package for the Paleobiology Database).  The `earthlife` package specifically binds the joint API, and provides basic functionality to search for biological data from the present to the origin of life on earth.
+The `earthlife` R package is a wrapper for the shared API of the Neotoma Paleoecological Database ([http://neotomadb.org]()) and the Paleobiology Database ([http://paleodb.org]()).  Each individual resource maintains a unique API system, and each has associated tools that makes use of their respective API system (*e.g.*, the `neotoma` R package for Neotoma, the `paleodb` package for the Paleobiology Database).  The `earthlife` package specifically binds the joint API, and provides basic functionality to search for biological data from the present to the origin of life on earth.
 
 ## Resource Overview
 
@@ -25,7 +25,61 @@ The API itself works at the level of either unique occurrence or site IDs, taxon
 
 ## Implementation
 
-### Class: `occurrence`
+### Class `occurrence`
 
 The `occurrence` class is the workhorse of the `earthlife` package.  It consists of the API response, parsed into a `data.frame`, and a set of associaed metadata.  Recent interest in data provenance has led us to include metadata for the search key sufficient to generate a reproducible citation for the search itself.  This uses the standard `citation` method, usually applied to packages to obtain their citation. While citing the specific search package is not neccessary, it is useful to retain information about the specific search and the access date.  The `citation` method for `occurrence` data provides a simple citation style so it can be copy-pasted into a document, and retains the core information neccessary for reproducibility.
+
+```{r}
+
+# The function `get_by_taxon` will be described more fully later.  We want to return an
+# `occurrence` object fo illustrate the various methods available:
+
+basic_occ <- get_by_taxon('Poaceae', lower = TRUE)
+str(basic_occ)
+```
+
+#### Methods
+
+##### `print`
+```{r}
+basic_occ
+```
+
+The `print` method returns a summary of the occurrence information, with a sample subset of data, the total number of unique taxa returned and the age range of the entre dataset.  The complete data table can be obtained using `basic_occ[[1]]` or ...
+
+##### `citation`
+
+```{r}
+citation(basic_occ)
+```
+
+The `citation` method returns information about the provenance of the dataset within the `occurrence` object.  This includes a formatted citation and BibTeX output for the search, but, primarily contains the URL of the search string sent to the joint API, and the date the search was undertaken.
+
+##### `plot`
+
+```{r}
+plot(basic_occ)
+```
+
+The plot method outputs both a plot of the density of sample occurrences through time, but also a map of the spatial distribution of sites.  The plotting method uses the `maps` package to place a mapped background over the sample points.
+
+### Key Functions:
+
+#### `get_occurrence`
+
+#### `get_by_taxon`
+
+#### `get_by_age`
+
+#### `get_by_bbox`
+
+### Helper Functions
+
+#### `bind`
+
+It may be the case that a user wishes to combine the results of two seperate searches.  This method binds the output within the `records` section of the `occurrence` object, but it also provides support for preserving the data provenance by combining `meta` information from both objects.  This results in the generation of a unique key for tagging the individual occurrences and two or more `citation`s for the record.  The `plot` method in this case will return graduated symbols for each component of the broader search, and the print method will indicate that the results were obtained from multiple searches.
+
+Duplicate occurrences are preserved, but the `clear_dups` function can be used to remove duplicates from the `occurrence` based on a set of stated rules.
+
+#### `clear_dups`
 

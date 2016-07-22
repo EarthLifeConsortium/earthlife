@@ -109,16 +109,20 @@ get_by_age.default <- function(x, ageunit = "Mya", timerule = "contain", timebuf
 
   records <- data.frame(do.call(dplyr::bind_rows, neotoma_content$records))
 
-  colnames(records) <- record_cols$pbdb[match(colnames(records), record_cols$com)]
+  colnames(records) <- earthlife:::record_cols$pbdb[match(colnames(records), record_cols$com)]
 
   if ("dataset_no" %in% colnames(records)) {
 
     # Resorting and excluding "record_type"
+    col_names <- c("collection_name", "lng", "lat", "accepted_name",
+                   "max_age", "min_age", "age_unit",
+                   "database", "occurrence_no", "dataset_no", "accepted_no",
+                   "collection_no", "country", "state")
 
-    records <- records[, c("collection_name", "lng", "lat", "accepted_name",
-                           "max_age", "min_age", "age_unit",
-                           "database", "occurrence_no", "dataset_no", "accepted_no",
-                           "collection_no", "country", "state")]
+    for (i in col_names[!"collection_name" %in% colnames(records)]) {
+      records[,i] <- NA
+    }
+
   } else {
 
     # This happens when only PBDB records are returned.
