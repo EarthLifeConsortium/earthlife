@@ -13,11 +13,12 @@ print.occurrence <- function(x, ...) {
                  range(x$records$min_age, na.rm = TRUE)[2])
 
   record <- paste0("Occurrence data from the EarthLife Consortium.\n",
-                   nrow(x$records), " returned, ", uniques, " unique sites.\n",
+                   nrow(x$records), " occurrences returned from ", uniques, " unique sites.\n",
                    length(unique(x$records$accepted_name)), " identified taxa from ",
-                   age_range[1], " to ", age_range[2], " Mya.\n")
+                   age_range[1], " to ", age_range[2], " Mya.\n",
+                   "Accessed: ",format(x$meta$access, "%F"),"\n\n")
 
-  cat(record, " - ",format(x$meta$access, "%F"),"\n")
+  cat(record)
   print(x$record[1:3,c("lng", "lat", "accepted_name", "min_age", "max_age", "age_unit")])
   cat("\t...\n\n")
   cat("Use \'citation\' to get a formal citation for this search result.\n")
